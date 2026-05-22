@@ -1209,6 +1209,8 @@ footer::before{
   padding:24px;
   animation: backdropIn .2s ease;
 }
+.modal-backdrop[hidden]{ display:none; }
+.modal-view[hidden]{ display:none; }
 @keyframes backdropIn{ from{ opacity:0 } to{ opacity:1 } }
 .modal{
   background:var(--cream);
