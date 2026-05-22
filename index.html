@@ -1569,7 +1569,7 @@ footer::before{
         <h3>Send it</h3>
         <p>Venmo or Zelle, whichever's easier:</p>
         <div class="pay-row">
-          <div class="pay"><b>Venmo</b><code>@Celia-Emmons</code><button class="copy-btn" data-copy="@Celia-Emmons">Copy</button></div>
+          <div class="pay"><b>Venmo</b><code>@Celia-Emmons · 9890</code><button class="copy-btn" data-copy="@Celia-Emmons">Copy</button></div>
           <div class="pay"><b>Zelle</b><code>937-654-9895</code><button class="copy-btn" data-copy="937-654-9895">Copy</button></div>
         </div>
       </div>
@@ -1956,7 +1956,7 @@ function showSuccess(donor){
   if (method === 'venmo'){
     payInstruct.innerHTML = `
       Send <b>$${activeBlockNum}</b> on <b>Venmo</b> to:
-      <div class="copyrow"><b>@Celia-Emmons</b>
+      <div class="copyrow"><b>@Celia-Emmons · 9890</b>
         <button type="button" class="copy-btn" data-copy="@Celia-Emmons">Copy</button>
       </div>
       Please include <b>"Block #${activeBlockNum}"</b> in the payment note.`;
