@@ -1,0 +1,38 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email in get(/databases/$(database)/documents/config/admins).data.emails;
+    }
+
+    function isValidPendingClaim() {
+      let inc = request.resource.data;
+      let cur = resource.data;
+      return cur.status == "available"
+        && inc.status == "pending"
+        && inc.amount == cur.amount
+        && inc.donor.firstName is string && inc.donor.firstName.size() > 0 && inc.donor.firstName.size() < 60
+        && inc.donor.lastName  is string && inc.donor.lastName.size() > 0  && inc.donor.lastName.size()  < 60
+        && inc.donor.email     is string && inc.donor.email.matches(".+@.+\\..+") && inc.donor.email.size() < 120
+        && inc.donor.phone     is string && inc.donor.phone.size() > 0 && inc.donor.phone.size() < 40
+        && inc.donor.paymentMethod in ["venmo", "zelle"]
+        && inc.donor.anonymous is bool
+        && inc.pendingAt == request.time;
+    }
+
+    match /blocks/{blockId} {
+      allow read: if true;
+      allow update: if isValidPendingClaim() || isAdmin();
+      allow create, delete: if isAdmin();
+    }
+
+    match /config/{docId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+  }
+}
