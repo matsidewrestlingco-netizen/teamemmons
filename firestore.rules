@@ -19,7 +19,7 @@ service cloud.firestore {
         && inc.donor.lastName  is string && inc.donor.lastName.size() > 0  && inc.donor.lastName.size()  < 60
         && inc.donor.email     is string && inc.donor.email.matches(".+@.+\\..+") && inc.donor.email.size() < 120
         && inc.donor.phone     is string && inc.donor.phone.size() > 0 && inc.donor.phone.size() < 40
-        && inc.donor.paymentMethod in ["venmo", "zelle"]
+        && inc.donor.paymentMethod in ["venmo", "zelle", "check"]
         && inc.donor.anonymous is bool
         && inc.pendingAt == request.time;
     }

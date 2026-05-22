@@ -1584,10 +1584,11 @@ footer::before{
       <div class="step reveal delay-1">
         <div class="step-num">02</div>
         <h3>Send it</h3>
-        <p>Venmo or Zelle, whichever's easier:</p>
+        <p>Venmo, Zelle, or check — whichever's easier:</p>
         <div class="pay-row">
           <div class="pay"><b>Venmo</b><code>@Celia-Emmons (Last 4 digits of phone: 9890)</code><button class="copy-btn" data-copy="@Celia-Emmons">Copy</button></div>
           <div class="pay"><b>Zelle</b><code>937-654-9895</code><button class="copy-btn" data-copy="937-654-9895">Copy</button></div>
+          <div class="pay"><b>Check</b><code>2409 E Springwood Dr, Glenshaw, PA 15116</code><button class="copy-btn" data-copy="2409 E Springwood Dr, Glenshaw, PA 15116">Copy</button></div>
         </div>
       </div>
       <div class="step reveal delay-2">
@@ -1698,6 +1699,7 @@ footer::before{
           <legend>Payment method</legend>
           <label class="radio"><input type="radio" name="paymentMethod" value="venmo" required> Venmo</label>
           <label class="radio"><input type="radio" name="paymentMethod" value="zelle"> Zelle</label>
+          <label class="radio"><input type="radio" name="paymentMethod" value="check"> Check or Cash</label>
         </fieldset>
         <label class="checkbox">
           <input type="checkbox" name="anonymous"> Show me publicly as "Anonymous"
@@ -1977,13 +1979,20 @@ function showSuccess(donor){
         <button type="button" class="copy-btn" data-copy="@Celia-Emmons">Copy</button>
       </div>
       Please include <b>"Block #${activeBlockNum}"</b> in the payment note.`;
-  } else {
+  } else if (method === 'zelle'){
     payInstruct.innerHTML = `
       Send <b>$${activeBlockNum}</b> on <b>Zelle</b> to:
       <div class="copyrow"><b>937-654-9895</b>
         <button type="button" class="copy-btn" data-copy="937-654-9895">Copy</button>
       </div>
       Please include <b>"Block #${activeBlockNum}"</b> in the payment note.`;
+  } else {
+    payInstruct.innerHTML = `
+      Mail a <b>check</b> for <b>$${activeBlockNum}</b> (or drop off cash) to:
+      <div class="copyrow"><b>2409 E Springwood Dr, Glenshaw, PA 15116</b>
+        <button type="button" class="copy-btn" data-copy="2409 E Springwood Dr, Glenshaw, PA 15116">Copy</button>
+      </div>
+      Please write <b>"Block #${activeBlockNum}"</b> in the memo line.`;
   }
   viewForm.hidden = true;
   viewSuccess.hidden = false;

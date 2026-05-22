@@ -293,6 +293,7 @@ function donorFormHtml(prefill){
       <div>
         <label class="radio"><input type="radio" name="fM" value="venmo" ${prefill.paymentMethod === 'venmo' ? 'checked' : ''}> Venmo</label>
         <label class="radio"><input type="radio" name="fM" value="zelle" ${prefill.paymentMethod === 'zelle' ? 'checked' : ''}> Zelle</label>
+        <label class="radio"><input type="radio" name="fM" value="check" ${prefill.paymentMethod === 'check' ? 'checked' : ''}> Check or Cash</label>
       </div>
     </label>
     <label class="checkbox"><input type="checkbox" id="fA" ${prefill.anonymous ? 'checked' : ''}> Show publicly as "Anonymous"</label>
@@ -368,7 +369,7 @@ function validateDonor(d){
   if (!d.lastName)  return 'Last name required.';
   if (!d.email || !/.+@.+\..+/.test(d.email)) return 'Valid email required.';
   if (!d.phone) return 'Phone required.';
-  if (!['venmo','zelle'].includes(d.paymentMethod)) return 'Payment method required.';
+  if (!['venmo','zelle','check'].includes(d.paymentMethod)) return 'Payment method required.';
   return null;
 }
 
