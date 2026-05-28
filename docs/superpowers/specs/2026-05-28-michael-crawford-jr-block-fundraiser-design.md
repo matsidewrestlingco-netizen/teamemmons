@@ -118,7 +118,7 @@ Replace text-only items that mention Weston-specific facts:
   - Grade · School → "8 / Shaler"
 - Hero photo `<img src>` → `michael.jpg`, alt → "Michael Crawford Jr. having his hand raised after a Greco-Roman win"
 - Photo-tag "who" small label → "On the Mat" / "Crawford"
-- Photo-tag meta → "Hand raised" (keep), "Round" subtext → leave generic or remove (Weston's says "Round of 16" — we don't know Michael's match context; default to removing the round line)
+- Photo-tag meta → "Hand raised" (keep). Drop the "Round of 16" subtext line entirely (we don't know Michael's match context).
 
 ### Scoreboard
 - Goal stays **$1,830** (60-block math).
@@ -134,14 +134,12 @@ Replace text-only items that mention Weston-specific facts:
   - Team Pennsylvania · 138 Greco · TWC
 
 #### Letter body
-Use Michael's letter verbatim, broken into the same `<p class="reveal">` paragraph cadence Weston's page uses. Bold the same kinds of phrases (team name, weight/style, $1,500, block math, $1,830) for visual rhythm parity.
+Use Michael's letter **exactly as he wrote it**, broken into the same `<p class="reveal">` paragraph cadence Weston's page uses. Bold the same kinds of phrases (team name, weight/style, $1,500, block math, $1,830) for visual rhythm parity. No prepended intro paragraph — start with "This past spring…" as he wrote it.
 
 **Editorial decisions (confirmed by user):**
 - Fix typo "inportant" → "important".
 - Normalize opening dates "July 8–15" → "July 13–15" (matches his own later sentence and the actual Fargo competition dates).
 - Light copyedit pass for any other small typos uncovered during implementation. Voice and wording preserved.
-
-Add the same intro line Weston's letter starts with for tonal parity, since Michael's pasted text jumps right into "This past spring…": prepend **"Hi everyone — if you're reading this, it probably means you know me or my family, and I'm asking for your help with something pretty big."** as a leading paragraph. (Optional — flag for user.)
 
 ### How it works — payment row
 Vendors kept (Venmo / Zelle / Check or Cash). Values:
@@ -162,7 +160,7 @@ Both about-cards (About Fargo, Team Pennsylvania) — keep verbatim. Generic inf
 
 ### Footer
 - Foot-mark / sub: unchanged ("★ Road to Fargo ★ / Thank you · The Crawford Family")
-- Contact emails: **TODO — pending from family.** Leave as `mailto:TODO@example.com` placeholders with a visible note, or remove the contact line entirely until provided. Recommendation: remove for first publish, add when received.
+- Contact email: `crawmk@yahoo.com` (single contact, mirroring Weston's footer style).
 - Fineprint about PAUSAW 501(c)(3): unchanged.
 
 ---
@@ -215,8 +213,11 @@ This is intentionally simpler than building a wrestler-switcher UI. If a third w
 
 ## Open items at spec time
 
-1. **Family contact emails** for footer — pending from family. Page can ship without them.
-2. **Whether to prepend the "Hi everyone…" intro paragraph** to Michael's letter for tonal parity with Weston's. (Editorial call — user to decide.)
-3. **Photo metadata** — what to put in the photo-tag "Round" line (or whether to drop it).
+All resolved at spec time:
 
-None of these block implementation; each has a sensible default I'll use unless you say otherwise.
+1. ~~Family contact email~~ — `crawmk@yahoo.com`.
+2. ~~Letter intro paragraph~~ — keep Michael's letter exactly as he wrote it; no prepended intro.
+3. ~~Photo-tag "Round" line~~ — dropped.
+4. ~~Seeding approach~~ — `michael/seed.html`, admin-gated, idempotent.
+
+No blockers; ready for implementation planning.
