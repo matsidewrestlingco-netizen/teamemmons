@@ -1973,22 +1973,22 @@ function showSuccess(donor){
   if (method === 'venmo'){
     payInstruct.innerHTML = `
       Send <b>$${activeBlockNum}</b> on <b>Venmo</b> to:
-      <div class="copyrow"><b>@Celia-Emmons (Last 4 digits of phone: 9890)</b>
-        <button type="button" class="copy-btn" data-copy="@Celia-Emmons">Copy</button>
+      <div class="copyrow"><b>@drofwarcekim</b>
+        <button type="button" class="copy-btn" data-copy="@drofwarcekim">Copy</button>
       </div>
       Please include <b>"Block #${activeBlockNum}"</b> in the payment note.`;
   } else if (method === 'zelle'){
     payInstruct.innerHTML = `
       Send <b>$${activeBlockNum}</b> on <b>Zelle</b> to:
-      <div class="copyrow"><b>937-654-9895</b>
-        <button type="button" class="copy-btn" data-copy="937-654-9895">Copy</button>
+      <div class="copyrow"><b>412-951-5007</b>
+        <button type="button" class="copy-btn" data-copy="412-951-5007">Copy</button>
       </div>
       Please include <b>"Block #${activeBlockNum}"</b> in the payment note.`;
   } else {
     payInstruct.innerHTML = `
       Mail a <b>check</b> for <b>$${activeBlockNum}</b> (or drop off cash) to:
-      <div class="copyrow"><b>2409 E Springwood Dr, Glenshaw, PA 15116</b>
-        <button type="button" class="copy-btn" data-copy="2409 E Springwood Dr, Glenshaw, PA 15116">Copy</button>
+      <div class="copyrow"><b>2716 Wooster Drive, Allison Park, PA 15101</b>
+        <button type="button" class="copy-btn" data-copy="2716 Wooster Drive, Allison Park, PA 15101">Copy</button>
       </div>
       Please write <b>"Block #${activeBlockNum}"</b> in the memo line.`;
   }
