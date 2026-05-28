@@ -14,6 +14,7 @@
       "**/node_modules/**",
       "docs/**",
       "seed.html",
+      "michael/seed.html",
       "tweaks-panel.jsx",
       "**/*.md"
     ],

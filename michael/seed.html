@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seed Michael's Blocks · Admin</title>
+<style>
+  body{ font-family: system-ui, sans-serif; background:#0B0F1A; color:#fff; padding:40px; max-width:640px; margin:0 auto; }
+  h1{ font-size:22px; margin:0 0 8px; }
+  p{ color:#9fb0c8; line-height:1.6; }
+  button{ background:#FFB81C; color:#0B0F1A; border:0; border-radius:6px; padding:12px 20px; font-size:14px; font-weight:700; cursor:pointer; margin-right:10px; }
+  button:disabled{ opacity:.5; cursor:default; }
+  .log{ background:#141a28; border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:14px; margin-top:18px; font-family:"JetBrains Mono", monospace; font-size:12px; max-height:300px; overflow-y:auto; }
+  .ok{ color:#7fdc9e; }
+  .err{ color:#ff9aa5; }
+  .skip{ color:#9fb0c8; }
+</style>
+</head>
+<body>
+
+<h1>Seed Michael's blocks_michael collection</h1>
+<p>One-time admin tool. Creates docs <code>1</code>–<code>60</code> in the <code>blocks_michael</code> Firestore collection. Idempotent — re-running skips docs that already exist.</p>
+
+<button id="btnSignIn">Sign in with Google</button>
+<button id="btnSeed" disabled>Seed 60 blocks</button>
+<button id="btnSignOut" disabled>Sign out</button>
+
+<div class="log" id="log">Not signed in.</div>
+
+<script type="module">
+import {
+  GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+import {
+  collection, doc, getDoc, setDoc
+} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+import { db, auth } from "../firebase-init.js";
+
+const log = document.getElementById('log');
+const btnSignIn = document.getElementById('btnSignIn');
+const btnSeed = document.getElementById('btnSeed');
+const btnSignOut = document.getElementById('btnSignOut');
+
+function line(msg, cls){
+  const div = document.createElement('div');
+  if (cls) div.className = cls;
+  div.textContent = msg;
+  log.appendChild(div);
+  log.scrollTop = log.scrollHeight;
+}
+
+const provider = new GoogleAuthProvider();
+provider.setCustomParameters({ prompt: 'select_account' });
+
+btnSignIn.onclick = async () => {
+  try { await signInWithPopup(auth, provider); }
+  catch(e){ line('Sign-in failed: ' + (e.message || e.code), 'err'); }
+};
+btnSignOut.onclick = () => signOut(auth);
+
+onAuthStateChanged(auth, (user) => {
+  log.innerHTML = '';
+  if (!user){
+    line('Not signed in.');
+    btnSignIn.disabled = false;
+    btnSeed.disabled = true;
+    btnSignOut.disabled = true;
+    return;
+  }
+  line('Signed in as ' + user.email, 'ok');
+  btnSignIn.disabled = true;
+  btnSeed.disabled = false;
+  btnSignOut.disabled = false;
+});
+
+btnSeed.onclick = async () => {
+  btnSeed.disabled = true;
+  line('Starting seed…');
+  let created = 0, skipped = 0, failed = 0;
+  for (let n = 1; n <= 60; n++){
+    const ref = doc(db, 'blocks_michael', String(n));
+    try {
+      const snap = await getDoc(ref);
+      if (snap.exists()){
+        line('skip #' + n + ' (already exists)', 'skip');
+        skipped++;
+        continue;
+      }
+      await setDoc(ref, {
+        amount: n,
+        status: 'available',
+        donor: null,
+        pendingAt: null,
+        claimedAt: null
+      });
+      line('created #' + n, 'ok');
+      created++;
+    } catch(e){
+      line('FAILED #' + n + ': ' + (e.message || e.code), 'err');
+      failed++;
+    }
+  }
+  line(`Done. Created: ${created}, Skipped: ${skipped}, Failed: ${failed}`, failed > 0 ? 'err' : 'ok');
+  btnSeed.disabled = false;
+};
+</script>
+</body>
+</html>
