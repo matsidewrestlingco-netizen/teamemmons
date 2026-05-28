@@ -1732,7 +1732,7 @@ footer::before{
 import {
   collection, doc, onSnapshot, runTransaction, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
-import { db } from "./firebase-init.js";
+import { db } from "../firebase-init.js";
 
 /* --------- Ticker (unchanged) ---------------------------- */
 const tickerItems = [
@@ -1836,7 +1836,7 @@ function renderGrid(){
 }
 
 /* --------- Live Firestore subscription ------------------ */
-onSnapshot(collection(db, 'blocks'), (snap) => {
+onSnapshot(collection(db, 'blocks_michael'), (snap) => {
   snap.docChanges().forEach(change => {
     const n = parseInt(change.doc.id, 10);
     if (change.type === 'removed') blocksState.delete(n);
@@ -1937,7 +1937,7 @@ form.addEventListener('submit', async (e) => {
   formSubmit.disabled = true;
   formSubmit.innerHTML = 'Reserving…';
 
-  const blockRef = doc(db, 'blocks', String(activeBlockNum));
+  const blockRef = doc(db, 'blocks_michael', String(activeBlockNum));
   try {
     await runTransaction(db, async (tx) => {
       const snap = await tx.get(blockRef);
