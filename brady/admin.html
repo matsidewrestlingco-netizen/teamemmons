@@ -1,0 +1,772 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Road to Fargo · Brady — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0B0F1A; --ink-2:#141a28; --ink-3:#1d2436;
+  --cream:#F6F1E4; --mat:#C8102E; --gold:#FFB81C;
+  --line:rgba(255,255,255,0.1);
+}
+*,*::before,*::after{ box-sizing:border-box; }
+[hidden]{ display:none !important; }
+body{
+  margin:0; font-family:"Outfit", system-ui, sans-serif;
+  font-size:15px; color:#fff; background:var(--ink);
+  min-height:100vh;
+}
+.wrap{ max-width:1200px; margin:0 auto; padding:0 24px; }
+.mono{ font-family:"JetBrains Mono", monospace; }
+
+/* Header bar */
+.bar{
+  background:#06090f;
+  padding:16px 24px;
+  display:flex; align-items:center; justify-content:space-between;
+  border-bottom:1px solid var(--line);
+}
+.bar .brand{
+  font-family:"Anton", sans-serif;
+  font-size:22px;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+.bar .brand .red{ color:var(--mat); }
+.bar .brand .gold{ color:var(--gold); }
+.bar .who{
+  font-family:"JetBrains Mono", monospace;
+  font-size:12px;
+  color:#9fb0c8;
+}
+.bar .who b{ color:#fff; }
+.btn-out{
+  margin-left:14px;
+  background:transparent;
+  border:1px solid var(--line);
+  color:#fff;
+  padding:6px 12px;
+  border-radius:4px;
+  font-family:"JetBrains Mono", monospace;
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  cursor:pointer;
+}
+.btn-out:hover{ border-color:var(--gold); color:var(--gold); }
+
+/* Sign-in screen */
+.signin{
+  min-height:80vh;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center;
+  padding:40px 24px;
+}
+.signin h1{
+  font-family:"Anton", sans-serif;
+  font-size:48px;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+  margin-bottom:14px;
+}
+.signin h1 .red{ color:var(--mat); }
+.signin h1 .gold{ color:var(--gold); }
+.signin p{ color:#9fb0c8; margin-bottom:32px; }
+.btn-google{
+  display:inline-flex; align-items:center; gap:12px;
+  background:#fff; color:#1a1a1a;
+  border:0; border-radius:6px;
+  padding:12px 22px;
+  font-family:"Outfit", sans-serif;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 6px 20px -6px rgba(0,0,0,0.5);
+}
+.btn-google:hover{ transform: translateY(-1px); }
+.signin .err{
+  margin-top:20px; padding:14px 18px;
+  background:rgba(200,16,46,0.08);
+  border:1px solid rgba(200,16,46,0.3);
+  border-radius:6px;
+  color:#ff9aa5;
+  max-width:420px;
+}
+
+/* Dashboard */
+.dash{ padding:40px 0 60px; }
+.section-title{
+  font-family:"JetBrains Mono", monospace;
+  font-size:11px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin:36px 0 14px;
+}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+.stat-card{
+  background:var(--ink-2);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:18px 20px;
+}
+.stat-card .v{
+  font-family:"Anton", sans-serif;
+  font-size:40px;
+  letter-spacing:.01em;
+  color:#fff;
+  line-height:.9;
+}
+.stat-card .v .currency{ color:var(--gold); font-size:.6em; vertical-align:.18em; margin-right:2px; }
+.stat-card .l{
+  font-family:"JetBrains Mono", monospace;
+  font-size:10px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:#9fb0c8;
+  margin-top:6px;
+}
+
+/* Pending list */
+.pending-list{ display:grid; gap:10px; }
+.pending-row{
+  background:var(--ink-2);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:16px 18px;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:18px;
+  align-items:center;
+}
+.pending-row .blocknum{
+  font-family:"Anton", sans-serif;
+  font-size:38px;
+  color:var(--gold);
+  line-height:.9;
+  min-width:60px;
+  text-align:center;
+}
+.pending-row .blocknum small{
+  display:block;
+  font-family:"JetBrains Mono", monospace;
+  font-size:10px;
+  letter-spacing:.18em;
+  color:#9fb0c8;
+  margin-top:4px;
+}
+.pending-row .info .name{
+  font-weight:700; font-size:17px;
+  margin-bottom:4px;
+}
+.pending-row .info .meta{
+  font-family:"JetBrains Mono", monospace;
+  font-size:12px;
+  color:#9fb0c8;
+  letter-spacing:.06em;
+}
+.pending-row .info .meta a{ color:#cdd6e6; }
+.pending-row .info .age{
+  font-family:"JetBrains Mono", monospace;
+  font-size:11px;
+  color:#9fb0c8;
+  margin-top:6px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.pending-row .actions{
+  display:flex; gap:8px; flex-wrap:wrap;
+  justify-content:flex-end;
+}
+.btn-action{
+  border:0; border-radius:4px;
+  padding:8px 14px;
+  font-family:"JetBrains Mono", monospace;
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  cursor:pointer;
+  font-weight:700;
+}
+.btn-action.confirm{ background:#1b7a3a; color:#fff; }
+.btn-action.confirm:hover{ background:#23994a; }
+.btn-action.release{ background:transparent; color:#fff; border:1px solid var(--line); }
+.btn-action.release:hover{ border-color:var(--mat); color:var(--mat); }
+.btn-action.edit{ background:transparent; color:#fff; border:1px solid var(--line); }
+.btn-action.edit:hover{ border-color:var(--gold); color:var(--gold); }
+.btn-action:disabled{ opacity:.5; cursor:default; }
+.empty{
+  background:var(--ink-2);
+  border:1px dashed var(--line);
+  border-radius:8px;
+  padding:24px;
+  text-align:center;
+  color:#9fb0c8;
+}
+
+/* Admin grid */
+.admin-grid{
+  display:grid;
+  grid-template-columns:repeat(10,1fr);
+  gap:8px;
+}
+.ab{
+  aspect-ratio:1/1;
+  border-radius:4px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:"Anton", sans-serif;
+  font-size:18px;
+  cursor:pointer;
+  border:1px solid transparent;
+  transition: transform .12s ease;
+}
+.ab:hover{ transform: scale(1.06); }
+.ab.available{ background:var(--ink-3); color:#fff; }
+.ab.pending{ background:#3b3825; color:var(--gold); }
+.ab.claimed{ background:#0f5a2a; color:#a8e8b6; }
+
+.bottom-actions{ margin-top:24px; }
+.btn-manual{
+  background:var(--gold); color:var(--ink);
+  border:0; border-radius:6px;
+  padding:12px 20px;
+  font-family:"Outfit", sans-serif;
+  font-weight:700;
+  font-size:14px;
+  cursor:pointer;
+}
+
+/* Modal (admin) */
+.amodal-backdrop{
+  position:fixed; inset:0; background:rgba(0,0,0,0.72);
+  display:flex; align-items:center; justify-content:center;
+  padding:24px; z-index:1000;
+}
+.amodal{
+  background:var(--ink-2);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:32px 28px;
+  width:100%; max-width:440px;
+  max-height:90vh; overflow-y:auto;
+  position:relative;
+}
+.amodal h3{
+  font-family:"Anton", sans-serif;
+  font-size:28px;
+  text-transform:uppercase;
+  margin:0 0 16px;
+}
+.amodal label{
+  display:block;
+  font-family:"JetBrains Mono", monospace;
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:#9fb0c8;
+  margin-top:12px;
+}
+.amodal input, .amodal select{
+  display:block; width:100%;
+  margin-top:6px;
+  padding:10px 12px;
+  background:var(--ink-3);
+  border:1px solid var(--line);
+  border-radius:5px;
+  color:#fff;
+  font-family:"Outfit", sans-serif;
+  font-size:14px;
+}
+.amodal .radio{
+  display:inline-flex; align-items:center; gap:8px;
+  margin:8px 16px 0 0;
+  font-family:"Outfit", sans-serif;
+  color:#fff;
+  font-size:14px;
+  text-transform:none; letter-spacing:0;
+}
+.amodal .checkbox{
+  display:flex; align-items:center; gap:10px;
+  margin-top:14px;
+  font-family:"Outfit", sans-serif;
+  font-size:13px;
+  text-transform:none; letter-spacing:0;
+  color:#cdd6e6;
+}
+.amodal .actions-row{
+  display:flex; gap:10px; margin-top:22px; flex-wrap:wrap;
+}
+.amodal .actions-row button{ flex:1 1 auto; }
+.amodal .err{
+  margin-top:14px; padding:10px 12px;
+  background:rgba(200,16,46,0.1); border:1px solid rgba(200,16,46,0.4);
+  border-radius:5px; color:#ff9aa5; font-size:13px;
+}
+.amodal .close{
+  position:absolute; top:10px; right:14px;
+  background:transparent; border:0; color:#9fb0c8;
+  font-size:24px; cursor:pointer; line-height:1;
+}
+
+@media (max-width: 880px){
+  .stats{ grid-template-columns:repeat(2,1fr); }
+  .admin-grid{ grid-template-columns:repeat(6,1fr); }
+  .pending-row{ grid-template-columns:1fr; }
+  .pending-row .actions{ justify-content:flex-start; }
+}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="brand"><span class="red">★</span> Road <span class="gold">to</span> Fargo · <span style="color:#9fb0c8">Brady</span> Admin</div>
+  <div id="whoBar" hidden>
+    <span class="who">Signed in as <b id="whoEmail">—</b></span>
+    <button class="btn-out" id="btnSignOut">Sign out</button>
+  </div>
+</div>
+
+<!-- Sign-in -->
+<div class="signin" id="signinScreen">
+  <h1><span class="red">★</span> Brady <span class="gold">Admin</span></h1>
+  <p>Sign in with your Google account to manage blocks.</p>
+  <button class="btn-google" id="btnSignIn">
+    <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285f4" d="M17.64 9.2c0-.64-.06-1.25-.17-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.71v2.26h2.92c1.71-1.57 2.68-3.89 2.68-6.61z"/><path fill="#34a853" d="M9 18c2.43 0 4.47-.81 5.96-2.18l-2.92-2.26c-.8.54-1.83.86-3.04.86-2.34 0-4.32-1.58-5.03-3.71H.94v2.33A9 9 0 0 0 9 18z"/><path fill="#fbbc05" d="M3.97 10.71A5.41 5.41 0 0 1 3.68 9c0-.59.1-1.17.29-1.71V4.96H.94A9 9 0 0 0 0 9c0 1.45.35 2.83.94 4.04l3.03-2.33z"/><path fill="#ea4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.34l2.58-2.58A9 9 0 0 0 9 0a9 9 0 0 0-8.06 4.96l3.03 2.33C4.68 5.16 6.66 3.58 9 3.58z"/></svg>
+    Sign in with Google
+  </button>
+  <div class="err" id="signinErr" hidden></div>
+</div>
+
+<!-- Dashboard -->
+<div class="dash wrap" id="dashScreen" hidden>
+  <div class="section-title">Stats</div>
+  <div class="stats">
+    <div class="stat-card"><div class="v"><span class="currency">$</span><span id="sRaised">0</span></div><div class="l">Raised</div></div>
+    <div class="stat-card"><div class="v"><span id="sClaimed">0</span>/50</div><div class="l">Claimed</div></div>
+    <div class="stat-card"><div class="v"><span id="sPending">0</span></div><div class="l">Pending</div></div>
+    <div class="stat-card"><div class="v"><span class="currency">$</span><span id="sLeft">1,275</span></div><div class="l">Left to goal</div></div>
+  </div>
+
+  <div class="section-title">Pending — confirm payment</div>
+  <div class="pending-list" id="pendingList">
+    <div class="empty">No pending blocks.</div>
+  </div>
+
+  <div class="section-title">All blocks</div>
+  <div class="admin-grid" id="adminGrid"></div>
+
+  <div class="bottom-actions">
+    <button class="btn-manual" id="btnManual">+ Manually claim a block</button>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import {
+  GoogleAuthProvider, getAuth, signInWithPopup, signOut, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+import {
+  collection, doc, getDoc, getFirestore, onSnapshot, updateDoc, setDoc, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA8gzhb0f-VkRIEZTdmN-kQuEGJqcaoXVo",
+  authDomain: "road-to-fargo.firebaseapp.com",
+  projectId: "road-to-fargo",
+  storageBucket: "road-to-fargo.firebasestorage.app",
+  messagingSenderId: "544957385745",
+  appId: "1:544957385745:web:22cceaa7db85af5822f5b0"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+/* --------- Elements ----------------------------------- */
+const signinScreen = document.getElementById('signinScreen');
+const dashScreen = document.getElementById('dashScreen');
+const btnSignIn = document.getElementById('btnSignIn');
+const btnSignOut = document.getElementById('btnSignOut');
+const signinErr = document.getElementById('signinErr');
+const whoBar = document.getElementById('whoBar');
+const whoEmail = document.getElementById('whoEmail');
+const sRaised = document.getElementById('sRaised');
+const sClaimed = document.getElementById('sClaimed');
+const sPending = document.getElementById('sPending');
+const sLeft = document.getElementById('sLeft');
+const pendingList = document.getElementById('pendingList');
+const adminGrid = document.getElementById('adminGrid');
+const btnManual = document.getElementById('btnManual');
+
+const goal = 1275;
+let blocksState = new Map();
+let unsubscribe = null;
+
+/* --------- Sign-in flow ------------------------------- */
+const provider = new GoogleAuthProvider();
+provider.setCustomParameters({ prompt: 'select_account' });
+
+btnSignIn.addEventListener('click', async () => {
+  signinErr.hidden = true;
+  try {
+    await signInWithPopup(auth, provider);
+  } catch(e){
+    if (e.code === 'auth/popup-closed-by-user') return;
+    signinErr.hidden = false;
+    signinErr.textContent = "Sign-in failed: " + (e.message || e.code);
+  }
+});
+
+btnSignOut.addEventListener('click', async () => {
+  await signOut(auth);
+});
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user){
+    teardownDashboard();
+    return;
+  }
+  const allowed = await isWhitelisted(user.email);
+  if (!allowed){
+    signinErr.hidden = false;
+    signinErr.textContent = "This account (" + user.email + ") is not on the admin list.";
+    await signOut(auth);
+    return;
+  }
+  whoEmail.textContent = user.email;
+  whoBar.hidden = false;
+  signinScreen.hidden = true;
+  dashScreen.hidden = false;
+  startListening();
+});
+
+async function isWhitelisted(email){
+  try {
+    const snap = await getDoc(doc(db, 'config', 'admins'));
+    if (!snap.exists()) return false;
+    const emails = (snap.data().emails || []).map(s => s.toLowerCase());
+    return emails.includes(email.toLowerCase());
+  } catch(e){
+    console.error('whitelist check failed', e);
+    return false;
+  }
+}
+
+function teardownDashboard(){
+  if (unsubscribe){ unsubscribe(); unsubscribe = null; }
+  whoBar.hidden = true;
+  dashScreen.hidden = true;
+  signinScreen.hidden = false;
+}
+
+/* --------- Live data ---------------------------------- */
+function startListening(){
+  unsubscribe = onSnapshot(collection(db, 'blocks_brady'), (snap) => {
+    snap.docChanges().forEach(change => {
+      const n = parseInt(change.doc.id, 10);
+      if (change.type === 'removed') blocksState.delete(n);
+      else blocksState.set(n, change.doc.data());
+    });
+    renderStats();
+    renderPendingList();
+    renderAdminGrid();
+  }, (err) => {
+    console.error('Listener failed:', err);
+  });
+}
+
+/* --------- Stats -------------------------------------- */
+function renderStats(){
+  let raised = 0, claimed = 0, pending = 0;
+  for (const [, data] of blocksState){
+    if (data.status === 'claimed'){ raised += data.amount; claimed++; }
+    else if (data.status === 'pending'){ pending++; }
+  }
+  sRaised.textContent = raised.toLocaleString();
+  sClaimed.textContent = claimed;
+  sPending.textContent = pending;
+  sLeft.textContent = (goal - raised).toLocaleString();
+}
+
+/* --------- Pending list ------------------------------- */
+function formatAge(ts){
+  if (!ts || !ts.toMillis) return '—';
+  const ms = Date.now() - ts.toMillis();
+  const hrs = Math.floor(ms / 3600000);
+  if (hrs < 1) return 'just now';
+  if (hrs < 24) return hrs + 'h ago';
+  const days = Math.floor(hrs / 24);
+  return days + 'd ' + (hrs % 24) + 'h ago';
+}
+
+function renderPendingList(){
+  const pending = [...blocksState.entries()]
+    .filter(([, d]) => d.status === 'pending')
+    .sort((a, b) => {
+      const at = a[1].pendingAt?.toMillis?.() || 0;
+      const bt = b[1].pendingAt?.toMillis?.() || 0;
+      return at - bt;
+    });
+
+  if (pending.length === 0){
+    pendingList.innerHTML = '<div class="empty">No pending blocks. 🎯</div>';
+    return;
+  }
+
+  pendingList.innerHTML = '';
+  for (const [n, data] of pending){
+    const d = data.donor || {};
+    const row = document.createElement('div');
+    row.className = 'pending-row';
+    row.innerHTML = `
+      <div class="blocknum">#${n}<small>$${data.amount}</small></div>
+      <div class="info">
+        <div class="name">${escapeHtml(d.firstName || '')} ${escapeHtml(d.lastName || '')}${d.anonymous ? ' <em style="opacity:.7">(wants anonymous)</em>' : ''}</div>
+        <div class="meta">
+          <a href="mailto:${encodeURIComponent(d.email || '')}">${escapeHtml(d.email || '')}</a>
+          · <a href="tel:${encodeURIComponent(d.phone || '')}">${escapeHtml(d.phone || '')}</a>
+          · ${(d.paymentMethod || '').toUpperCase()}
+        </div>
+        <div class="age">Pended ${formatAge(data.pendingAt)}</div>
+      </div>
+      <div class="actions">
+        <button class="btn-action confirm" data-action="confirm" data-num="${n}">Confirm Paid</button>
+        <button class="btn-action release" data-action="release" data-num="${n}">Release</button>
+        <button class="btn-action edit"    data-action="edit"    data-num="${n}">Edit info</button>
+      </div>`;
+    pendingList.appendChild(row);
+  }
+}
+
+pendingList.addEventListener('click', (e) => {
+  const btn = e.target.closest('.btn-action');
+  if (!btn) return;
+  const n = parseInt(btn.dataset.num, 10);
+  const action = btn.dataset.action;
+  btn.disabled = true;
+  Promise.resolve()
+    .then(() => {
+      if (action === 'confirm') return confirmBlock(n);
+      if (action === 'release') return releaseBlock(n);
+      if (action === 'edit')    return openEditModal(n);
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Couldn't update block — try again.");
+    })
+    .finally(() => { btn.disabled = false; });
+});
+
+/* --------- Admin grid --------------------------------- */
+function renderAdminGrid(){
+  adminGrid.innerHTML = '';
+  for (let n = 1; n <= 50; n++){
+    const data = blocksState.get(n) || { amount: n, status: 'available' };
+    const el = document.createElement('div');
+    el.className = 'ab ' + data.status;
+    el.dataset.num = n;
+    el.textContent = n;
+    adminGrid.appendChild(el);
+  }
+}
+
+adminGrid.addEventListener('click', (e) => {
+  const cell = e.target.closest('.ab');
+  if (!cell) return;
+  const n = parseInt(cell.dataset.num, 10);
+  openBlockActionsModal(n);
+});
+
+btnManual.addEventListener('click', () => {
+  let n = null;
+  for (let i = 1; i <= 50; i++){
+    if ((blocksState.get(i)?.status || 'available') === 'available'){ n = i; break; }
+  }
+  if (n == null){ alert('No available blocks left.'); return; }
+  openManualClaimModal(n);
+});
+
+/* --------- Actions ------------------------------------ */
+async function confirmBlock(n){
+  await updateDoc(doc(db, 'blocks_brady', String(n)), {
+    status: 'claimed',
+    claimedAt: serverTimestamp()
+  });
+}
+async function releaseBlock(n){
+  if (!confirm(`Release Block #${n} back to available?`)) return;
+  await setDoc(doc(db, 'blocks_brady', String(n)), {
+    amount: n,
+    status: 'available',
+    donor: null,
+    pendingAt: null,
+    claimedAt: null
+  });
+}
+
+/* --------- Modals ------------------------------------- */
+function modalShell(title, bodyHtml){
+  const back = document.createElement('div');
+  back.className = 'amodal-backdrop';
+  back.innerHTML = `
+    <div class="amodal">
+      <button class="close" aria-label="Close">&times;</button>
+      <h3>${escapeHtml(title)}</h3>
+      ${bodyHtml}
+    </div>`;
+  document.body.appendChild(back);
+  const close = () => back.remove();
+  back.querySelector('.close').addEventListener('click', close);
+  back.addEventListener('click', (e) => { if (e.target === back) close(); });
+  return { back, close };
+}
+
+function openBlockActionsModal(n){
+  const data = blocksState.get(n);
+  if (!data) return;
+  const d = data.donor || {};
+  let body = '';
+  if (data.status === 'available'){
+    body = `
+      <p>Block #${n} is <strong>available</strong>.</p>
+      <div class="actions-row">
+        <button class="btn-action confirm" id="actManual">Manually claim this block</button>
+      </div>`;
+  } else {
+    body = `
+      <p><strong>${escapeHtml(d.firstName || '')} ${escapeHtml(d.lastName || '')}</strong> ${d.anonymous ? '<em style="opacity:.7">(wants anonymous)</em>' : ''}</p>
+      <p class="mono" style="color:#9fb0c8;font-size:12px;">
+        <a href="mailto:${encodeURIComponent(d.email || '')}" style="color:#cdd6e6">${escapeHtml(d.email || '')}</a><br>
+        <a href="tel:${encodeURIComponent(d.phone || '')}" style="color:#cdd6e6">${escapeHtml(d.phone || '')}</a><br>
+        ${(d.paymentMethod || '').toUpperCase()}
+      </p>
+      <div class="actions-row">
+        ${data.status === 'pending' ? `<button class="btn-action confirm" id="actConfirm">Confirm Paid</button>` : ''}
+        <button class="btn-action release" id="actRelease">Release</button>
+        <button class="btn-action edit" id="actEdit">Edit info</button>
+      </div>`;
+  }
+  const { close } = modalShell(`Block #${n} — $${n}`, body);
+  if (data.status === 'available'){
+    document.getElementById('actManual').onclick = () => { close(); openManualClaimModal(n); };
+  } else {
+    if (data.status === 'pending'){
+      document.getElementById('actConfirm').onclick = async () => { await confirmBlock(n); close(); };
+    }
+    document.getElementById('actRelease').onclick = async () => { await releaseBlock(n); close(); };
+    document.getElementById('actEdit').onclick    = () => { close(); openEditModal(n); };
+  }
+}
+
+function donorFormHtml(prefill){
+  prefill = prefill || {};
+  return `
+    <label>First name<input id="fF" maxlength="40" value="${escapeAttr(prefill.firstName || '')}"></label>
+    <label>Last name<input id="fL" maxlength="40" value="${escapeAttr(prefill.lastName || '')}"></label>
+    <label>Email<input id="fE" type="email" maxlength="100" value="${escapeAttr(prefill.email || '')}"></label>
+    <label>Phone<input id="fP" maxlength="30" value="${escapeAttr(prefill.phone || '')}"></label>
+    <label>Payment method
+      <div>
+        <label class="radio"><input type="radio" name="fM" value="venmo" ${prefill.paymentMethod === 'venmo' ? 'checked' : ''}> Venmo</label>
+        <label class="radio"><input type="radio" name="fM" value="paypal" ${prefill.paymentMethod === 'paypal' ? 'checked' : ''}> PayPal</label>
+        <label class="radio"><input type="radio" name="fM" value="check" ${prefill.paymentMethod === 'check' ? 'checked' : ''}> Check or Cash</label>
+      </div>
+    </label>
+    <label class="checkbox"><input type="checkbox" id="fA" ${prefill.anonymous ? 'checked' : ''}> Show publicly as "Anonymous"</label>
+    <div class="err" id="fErr" hidden></div>`;
+}
+
+function readDonorForm(){
+  const get = (id) => document.getElementById(id).value.trim();
+  return {
+    firstName: get('fF'),
+    lastName:  get('fL'),
+    email:     get('fE'),
+    phone:     get('fP'),
+    paymentMethod: (document.querySelector('input[name="fM"]:checked') || {}).value || '',
+    anonymous: document.getElementById('fA').checked
+  };
+}
+
+function openManualClaimModal(defaultNum){
+  const body = `
+    <label>Block #
+      <input id="fNum" type="number" min="1" max="50" value="${defaultNum}">
+    </label>
+    ${donorFormHtml({ paymentMethod: 'venmo' })}
+    <div class="actions-row">
+      <button class="btn-action confirm" id="actSave">Mark as Claimed</button>
+    </div>`;
+  const { close } = modalShell('Manually claim a block', body);
+  document.getElementById('actSave').onclick = async () => {
+    const n = parseInt(document.getElementById('fNum').value, 10);
+    if (!(n >= 1 && n <= 50)){ showFErr('Block must be 1–50.'); return; }
+    const donor = readDonorForm();
+    const err = validateDonor(donor);
+    if (err){ showFErr(err); return; }
+    try {
+      await setDoc(doc(db, 'blocks_brady', String(n)), {
+        amount: n,
+        status: 'claimed',
+        donor: donor,
+        pendingAt: null,
+        claimedAt: serverTimestamp()
+      });
+      close();
+    } catch(e){
+      showFErr("Couldn't save — " + e.message);
+    }
+  };
+}
+
+function openEditModal(n){
+  const data = blocksState.get(n);
+  if (!data) return;
+  const body = donorFormHtml(data.donor || {}) + `
+    <div class="actions-row">
+      <button class="btn-action confirm" id="actSave">Save changes</button>
+    </div>`;
+  const { close } = modalShell(`Edit donor info — Block #${n}`, body);
+  document.getElementById('actSave').onclick = async () => {
+    const donor = readDonorForm();
+    const err = validateDonor(donor);
+    if (err){ showFErr(err); return; }
+    try {
+      await updateDoc(doc(db, 'blocks_brady', String(n)), { donor: donor });
+      close();
+    } catch(e){
+      showFErr("Couldn't save — " + e.message);
+    }
+  };
+}
+
+function validateDonor(d){
+  if (!d.firstName) return 'First name required.';
+  if (!d.lastName)  return 'Last name required.';
+  if (!d.email || !/.+@.+\..+/.test(d.email)) return 'Valid email required.';
+  if (!d.phone) return 'Phone required.';
+  if (!['venmo','paypal','check'].includes(d.paymentMethod)) return 'Payment method required.';
+  return null;
+}
+
+function showFErr(msg){
+  const el = document.getElementById('fErr');
+  el.hidden = false;
+  el.textContent = msg;
+}
+
+/* --------- Helpers ------------------------------------ */
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function escapeAttr(s){ return escapeHtml(s); }
+</script>
+</body>
+</html>
