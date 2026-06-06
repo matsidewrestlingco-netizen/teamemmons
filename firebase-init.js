@@ -4,7 +4,7 @@ import { getAuth } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth
 
 const firebaseConfig = {
   apiKey: "AIzaSyA8gzhb0f-VkRIEZTdmN-kQuEGJqcaoXVo",
-  authDomain: "road-to-fargo.firebaseapp.com",
+  authDomain: "www.teamemmons.us",
   projectId: "road-to-fargo",
   storageBucket: "road-to-fargo.firebasestorage.app",
   messagingSenderId: "544957385745",
